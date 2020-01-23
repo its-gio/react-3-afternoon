@@ -20,7 +20,7 @@ class App extends Component {
   }
   
   componentDidMount() {
-    axios.get("http://practiceapi.devmountain.com/api/posts")
+    axios.get("https://practiceapi.devmountain.com/api/posts")
       // .then(data => console.log(data))
       .then(data => this.setState({ posts: data.data }))
       .catch(err => console.error(err));
@@ -31,8 +31,9 @@ class App extends Component {
       .then(res => this.setState({posts: res.data}))
   }
 
-  deletePost() {
-
+  deletePost(id) {
+    axios.delete(`https://practiceapi.devmountain.com/api/posts?id=${id}`)
+      .then(res => this.setState({posts: res.data}))
   }
 
   createPost() {
@@ -47,7 +48,7 @@ class App extends Component {
   render() {
     const { posts } = this.state;
     // console.log(posts)
-    let postsDisplay = posts.map((post, i) => <Post key={i} id={ post.id } updatePostFn={this.updatePost} text={post.text} date={post.date} /> )
+    let postsDisplay = posts.map((post, i) => <Post key={i} id={ post.id } updatePostFn={this.updatePost} text={post.text} date={post.date} deletePostFn={this.deletePost} /> )
     return (
       <div className="App__parent">
         <Header />
