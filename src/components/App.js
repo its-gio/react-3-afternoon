@@ -36,28 +36,27 @@ class App extends Component {
       .then(res => this.setState({posts: res.data}))
   }
 
-  createPost() {
-    // let newData = {
-    //   id: ,
-    //   text: "",
-    //   data: ""
-    // }
-    // axios.post("http://practiceapi.devmountain.com/api/posts", )
+  createPost(newPost) {
+    // console.log(newPost)
+    axios.post("https://practiceapi.devmountain.com/api/posts", newPost)
+      .then(res => this.setState({posts: res.data}))
+      .catch(err => console.error(err));
   }
 
   render() {
     const { posts } = this.state;
     // console.log(posts)
     let postsDisplay = posts.map((post, i) => <Post key={i} id={ post.id } updatePostFn={this.updatePost} text={post.text} date={post.date} deletePostFn={this.deletePost} /> )
+
     return (
       <div className="App__parent">
         <Header />
 
         <section className="App__content">
 
-          <Compose />
-          
-        { postsDisplay }
+          <Compose createPostFn={this.createPost} />
+
+          { postsDisplay }
         </section>
       </div>
     );
